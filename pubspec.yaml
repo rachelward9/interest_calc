@@ -1,0 +1,8 @@
+name: Polymer_Template
+description: A Polymer Dart application.
+dependencies:
+  polymer: any
+  intl: any
+transformers:
+- polymer:
+    entry_points: web/index.html
