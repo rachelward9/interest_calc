@@ -1,8 +1,8 @@
-name: Polymer_Template
-description: A Polymer Dart application.
+name: interest_calc
+description: An exercise finding an amount of money earned in the bank with an annual interest rate using Dart and Polymer.
 dependencies:
-  polymer: any
   intl: any
+  polymer: any
 transformers:
 - polymer:
     entry_points: web/index.html

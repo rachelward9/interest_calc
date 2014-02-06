@@ -5,13 +5,11 @@ import 'package:intl/intl.dart';
 
 @CustomTag('main-view')
 class MainView extends PolymerElement {
-
-//Constant variables
+  
+//Constants
   static const int INVEST_AMNT = 1000;
-  static const int INTEREST =  2;
+  static const num INTEREST =  .02;
   static const int START_YEAR =  1626;
-  static const int CURRENT_YEAR =  2014;
-  static const int YEARS_IN_BANK =  CURRENT_YEAR - START_YEAR;
   
 //Observable variables
   @observable String accountMessage;
@@ -19,27 +17,33 @@ class MainView extends PolymerElement {
   @observable String interestRate;
   
   num accountTotal;
+  int yearsInBank;
   
   // non-visual initialization can be done here
-  MainView.created() : super.created();
+  MainView.created() : super.created() {
+    print("MainView::created()");
+     
+    yearsInBank =  new DateTime.now().year - START_YEAR;
+    
+    calculateInterest();
+    
+//  Formatting for currency
+    NumberFormat f = new NumberFormat("###,###,###.00");
+    
+    initialInvest = "Original investment amount: \$${f.format(INVEST_AMNT)}";
+    interestRate = "Annual interest rate: ${(INTEREST * 100).floor()}%";
+    accountMessage = "Account total after $yearsInBank years: \$${f.format(accountTotal)}"; 
+  }
 
   // other initialization can be done here
   @override void enteredView() {
     super.enteredView();
     print("MainView::enteredView()");
-    calculateInterest();
-    
-//  Formatting for currency
-    var f = new NumberFormat("###,###,###.00", "en_US");
-    
-    initialInvest = "Original investment amount: ${f.format(INVEST_AMNT)}";
-    interestRate = "Annual interest rate: $INTEREST%";
-    accountMessage = "Account total after $YEARS_IN_BANK years: ${f.format(accountTotal)}"; 
   }
   
-  calculateInterest() {
+  void calculateInterest() {
 //  Formula to calculate interest is I=Prt (Interest = Principle * rate * time)
-    num interestTotal = INVEST_AMNT * (INTEREST / 100) * YEARS_IN_BANK;
+    num interestTotal = INVEST_AMNT * INTEREST * yearsInBank;
     accountTotal = INVEST_AMNT + interestTotal;
   }
   
